@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM-FE User Registration</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            color: #0f62fe; /* IBM Blue */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            border-color: #0f62fe;
+            outline: none;
+        }
+        .error {
+            color: red;
+            font-size: 13px;
+            display: none;
+        }
+        button {
+            width: 100%;
+            background-color: #0f62fe;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0353e9;
+        }
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>IBM-FE User Registration</h2>
+        <form id="registrationForm" novalidate>
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" required>
+                <div class="error" id="nameError">Full name is required</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError">Enter a valid email address</div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required minlength="4">
+                <div class="error" id="usernameError">Username must be at least 4 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error" id="passwordError">
+                    Password must be at least 8 characters and include a number, uppercase, and lowercase letter
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div class="error" id="confirmError">Passwords do not match</div>
+            </div>
+
+            <button type="submit">Register</button>
+            <div class="success" id="successMessage">Registration successful!</div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Get form elements
+            const fullname = document.getElementById("fullname").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            // Error elements
+            const nameError = document.getElementById("nameError");
+            const emailError = document.getElementById("emailError");
+            const usernameError = document.getElementById("usernameError");
+            const passwordError = document.getElementById("passwordError");
+            const confirmError = document.getElementById("confirmError");
+            const successMessage = document.getElementById("successMessage");
+
+            // Reset errors
+            nameError.style.display = "none";
+            emailError.style.display = "none";
+            usernameError.style.display = "none";
+            passwordError.style.display = "none";
+            confirmError.style.display = "none";
+            successMessage.style.display = "none";
+
+            let isValid = true;
+
+            // Validation rules
+            if (fullname === "") {
+                nameError.style.display = "block";
+                isValid = false;
+            }
+
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!emailPattern.test(email)) {
+                emailError.style.display = "block";
+                isValid = false;
+            }
+
+            if (username.length < 4) {
+                usernameError.style.display = "block";
+                isValid = false;
+            }
+
+            const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            if (!passwordPattern.test(password)) {
+                passwordError.style.display = "block";
+                isValid = false;
+            }
+
+            if (password !== confirmPassword) {
+                confirmError.style.display = "block";
+                isValid = false;
+            }
+
+            // If valid, show success message
+            if (isValid) {
+                successMessage.style.display = "block";
+                // Reset form
+                document.getElementById("registrationForm").reset();
+            }
+        });
+    </script>
+</body>
+</html>
